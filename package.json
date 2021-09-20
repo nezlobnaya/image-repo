@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "test",
-    "start": "nodemon server.js"
+    "start": "nodemon --verbose server.js"
   },
   "repository": {
     "type": "git",
