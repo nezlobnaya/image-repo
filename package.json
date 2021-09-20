@@ -1,0 +1,35 @@
+{
+  "name": "image-repo",
+  "version": "1.0.0",
+  "description": "back-end for an image repository",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "test",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nezlobnaya/image-repo.git"
+  },
+  "keywords": [
+    "node",
+    "express"
+  ],
+  "author": "Vlad Burlutskiy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nezlobnaya/image-repo/issues"
+  },
+  "homepage": "https://github.com/nezlobnaya/image-repo#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^6.0.6"
+  }
+}
