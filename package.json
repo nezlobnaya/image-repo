@@ -5,7 +5,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watchAll",
     "start": "nodemon --verbose server.js"
   },
   "repository": {
@@ -31,7 +31,8 @@
   },
   "jest": {
     "testEnvironment": "jest-environment-node",
-    "transform": {}
+    "transform": {},
+    "verbose": true
   },
   "dependencies": {
     "body-parser": "^1.19.0",
