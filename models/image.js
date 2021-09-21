@@ -1,5 +1,9 @@
-import pkg from "mongoose";
-const { Schema, model } = pkg;
+import mongoose from "mongoose";
+import slug from  "mongoose-slug-generator";
+
+const { Schema, model } = mongoose;
+
+mongoose.plugin(slug);
 
 const imageSchema = new Schema({
     title: {
@@ -10,10 +14,9 @@ const imageSchema = new Schema({
         type: String,
         required: true
     },
-    creator: {
-        type: String,
-        required: true
-    },
+    creatorId: {
+        type: Schema.Types.ObjectId, ref: "User" },
+
     selectedFiles: {
         type: [String],
         required: true
@@ -26,17 +29,21 @@ const imageSchema = new Schema({
         type: Number,
         default: 0
     },
-    createdAt: {
-        type: Date,
-        default: Date.now()
-    },
-    updatedAt: {
-        type: Date,
-        default: Date.now()
-    },
-});
+    slug: {
+        type: String,
+        slug: "title",
+        unique: true
+    }
+}, { timestamps: true }, { collection: "images" });
 
-const Image = new model("Image", imageSchema);
+
+imageSchema.index({
+    title: 'text',
+    description: 'text',
+    tags: 'text',
+    });
+
+const Image = new model("images", imageSchema);
 
 export default Image;
 

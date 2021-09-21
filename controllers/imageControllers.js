@@ -1,6 +1,10 @@
 import mongoose from 'mongoose';
-import Image from '../models/image.js';
+import Image from '../models/Image.js';
 
+
+const ObjectId = mongoose.Types.ObjectId;
+
+// Images
 export const getImages = async (req, res) => {
     try {
         const images = await Image.find();
@@ -11,12 +15,12 @@ export const getImages = async (req, res) => {
 };
 
 export const getImage = async (req, res) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({ message: 'Invalid ID' });
     }
     try {
         const image = await Image.findById(req.params.id);
-        if (!image) {
+        if (!image || image.length === 0) {
             return res.status(404).json({ message: 'Image not found' });
         }
         res.status(200).json(image);
@@ -34,19 +38,19 @@ export const postImage = async (req, res) => {
         const savedImage = await newImage.save();
         res.status(201).json(savedImage);
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        res.status(400).json({ message: err.message });
     }
 };
    
 
 export const updateImage = async (req, res) => {
     const updatedImage = req.body;
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({ message: 'Invalid ID' });
     }
     try {
         const image = await Image.findByIdAndUpdate(req.params.id, updatedImage, { new: true });
-        if (!image) {
+        if (!image || image.length === 0) {
             return res.status(404).json({ message: 'Image not found' });
         }
         res.status(200).json(image);
@@ -57,12 +61,12 @@ export const updateImage = async (req, res) => {
 };
 
 export const deleteImage = async (req, res) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({ message: 'Invalid ID' });
     }
     try {
         const image = await Image.findByIdAndDelete(req.params.id);
-        if (!image) {
+        if (!image || image.length === 0) {
             return res.status(404).json({ message: 'Image not found' });
         }
         res.json({message: 'Image deleted'});
@@ -86,29 +90,15 @@ export const deleteAllImages = async (req, res) => {
     }
 };
 
-export const getImagesByUser = async (req, res) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-        return res.status(400).json({ message: 'Invalid ID' });
-    }
-    try {
-        const images = await Image.find({ user: req.params.id });
-        if (!images) {
-            return res.status(404).json({ message: 'Images not found' });
-        }
-        res.status(200).json(images);
-
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-};
 
 export const getImagesByTag = async (req, res) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({ message: 'Invalid ID' });
     }
+    const tags = req.body.tags;
     try {
-        const images = await Image.find({ tags: req.params.id });
-        if (!images) {
+        const images = await Image.find({$text: {$search: tags}});
+        if (!images || images.length === 0) {
             return res.status(404).json({ message: 'Images not found' });
         }
         res.status(200).json(images);
@@ -120,29 +110,30 @@ export const getImagesByTag = async (req, res) => {
 
   
 export const getImagesByTitle = async (req, res) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({ message: 'Invalid ID' });
     }
+    const title = req.body.title;
     try {
-        const images = await Image.find({ title: req.params.id });
-        if (!images) {
+        const images = await Image.find({$text: {$search: title}});
+        if (!images || images.length === 0) {
             return res.status(404).json({ message: 'Images not found' });
         }
         res.status(200).json(images);
-
-    } catch (err) {
-        res.status(500).json({ error: err.message });
+    }
+    catch (err) {
+        res.status(400).json({ error: err.message });
     }
 };
 
-
 export const getImagesByDescription = async (req, res) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({ message: 'Invalid ID' });
     }
+    const description = req.body.description;
     try {
-        const images = await Image.find({ description: req.params.id });
-        if (!images) {
+        const images = await Image.find({$text: {$search: description }});
+        if (!images || images.length === 0) {
             return res.status(404).json({ message: 'Images not found' });
         }
         res.status(200).json(images);
@@ -154,12 +145,13 @@ export const getImagesByDescription = async (req, res) => {
 
 
 export const getImagesByDate = async (req, res) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({ message: 'Invalid ID' });
     }
+    const createdAt = req.body.createdAt;
     try {
-        const images = await Image.find({ date: req.params.id });
-        if (!images) {
+        const images = await Image.find({$search: createdAt });
+        if (!images || images.length === 0) {
             return res.status(404).json({ message: 'Images not found' });
         }
         res.status(200).json(images);
@@ -170,12 +162,12 @@ export const getImagesByDate = async (req, res) => {
 };
 
 export const likeImage = async (req, res) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({ message: 'Invalid ID' });
     }
     try {
         const image = await Image.findById(req.params.id);
-        if (!image) {
+        if (!image || image.length === 0) {
             return res.status(404).json({ message: 'Image not found' });
         }
         image.likeCount += 1;
@@ -188,12 +180,12 @@ export const likeImage = async (req, res) => {
 };
 
 export const dislikeImage = async (req, res) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({ message: 'Invalid ID' });
     }
     try {
         const image = await Image.findById(req.params.id);
-        if (!image) {
+        if (!image || image.length === 0) {
             return res.status(404).json({ message: 'Image not found' });
         }
         image.likeCount -= 1;
@@ -206,12 +198,12 @@ export const dislikeImage = async (req, res) => {
 };
 
 export const getLikes = async (req, res) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({ message: 'Invalid ID' });
     }
     try {
         const image = await Image.findById(req.params.id);
-        if (!image) {
+        if (!image || image.length === 0) {
             return res.status(404).json({ message: 'Image not found' });
         }
         res.status(200).json(image.likeCount);
@@ -222,12 +214,12 @@ export const getLikes = async (req, res) => {
 };
 
 export const getTags = async (req, res) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({ message: 'Invalid ID' });
     }
     try {
         const image = await Image.findById(req.params.id);
-        if (!image) {
+        if (!image || image.length === 0) {
             return res.status(404).json({ message: 'Image not found' });
         }
         res.status(200).json(image.tags);
@@ -238,15 +230,15 @@ export const getTags = async (req, res) => {
 };
 
 export const addTag = async (req, res) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({ message: 'Invalid ID' });
     }
     try {
         const image = await Image.findById(req.params.id);
-        if (!image) {
+        if (!image || image.length === 0) {
             return res.status(404).json({ message: 'Image not found' });
         }
-        image.tags.push(req.body.tag);
+        image.tags.push(req.body.tags);
         const updatedImage = await image.save();
         res.status(200).json(updatedImage);
 
@@ -256,15 +248,15 @@ export const addTag = async (req, res) => {
 };
 
 export const removeTag = async (req, res) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({ message: 'Invalid ID' });
     }
     try {
         const image = await Image.findById(req.params.id);
-        if (!image) {
+        if (!image || image.length === 0) {
             return res.status(404).json({ message: 'Image not found' });
         }
-        image.tags.splice(image.tags.indexOf(req.body.tag), 1);
+        image.tags.splice(image.tags.indexOf(req.body.tags), 1);
         const updatedImage = await image.save();
         res.status(200).json(updatedImage);
 
