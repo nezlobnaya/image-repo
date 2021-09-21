@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import imageRoutes from './routes/imageRoutes';
 
 
 const app = express();
@@ -17,6 +18,8 @@ app.use((error, req, res, next) => {
             message: error.message
             }});
 });
+
+app.use('/api/images', imageRoutes);
 
 export default app;
 
