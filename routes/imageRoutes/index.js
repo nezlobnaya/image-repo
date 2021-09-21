@@ -1,8 +1,9 @@
 import express from 'express';
 
-import { getImages, getImage, postImage, updateImage, deleteImage, deleteAllImages, getImagesByUser, getImagesByTag, getImagesByTitle, getImagesByDescription, getImagesByDate, likeImage, dislikeImage, addTag, removeTag } from '../controllers/images.js';
+import { getImages, getImage, postImage, updateImage, deleteImage, deleteAllImages, getImagesByUser, getImagesByTag, getImagesByTitle, getImagesByDescription, getImagesByDate, likeImage, dislikeImage, addTag, removeTag } from '../../controllers/index.js';
 
 const router = express.Router();
+
 
 router.get('/', getImages);
 router.get('/:id', getImage);

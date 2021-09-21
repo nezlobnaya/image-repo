@@ -1,4 +1,5 @@
-import { Schema, Model  } from "mongoose";
+import pkg from "mongoose";
+const { Schema, model } = pkg;
 
 const imageSchema = new Schema({
     title: {
@@ -35,7 +36,7 @@ const imageSchema = new Schema({
     },
 });
 
-const Image = new Model("Image", imageSchema);
+const Image = new model("Image", imageSchema);
 
 export default Image;
 

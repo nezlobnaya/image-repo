@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import imageRoutes from './routes/imageRoutes';
+import imageRoutes from './routes/imageRoutes/index.js';
 
 
 const app = express();

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import Image from '../models/image';
+import Image from '../models/image.js';
 
 export const getImages = (req, res) => {
     try {
