@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import Image from '../../models/Image.js';
+import Image from '../../models/image.js';
 
 
 const ObjectId = mongoose.Types.ObjectId;
