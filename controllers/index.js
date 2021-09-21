@@ -44,7 +44,7 @@ export const postImage = (req, res) => {
     }
 };
 
-export const putImage = (req, res) => {
+export const updateImage = (req, res) => {
     try {
         Image.findById(req.params.id, (err, image) => {
             if (err) {
