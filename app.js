@@ -9,7 +9,7 @@ app.use(bodyParser.json({ exceeded: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
-app.get('/', (req, res) => res.send('Hello World!'));
+app.get('/', (req, res) => res.send('Image Repo BACKEND'));
 
 app.use((error, req, res, next) => {
     console.log(error);
