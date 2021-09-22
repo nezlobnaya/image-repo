@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "start": "nodemon --verbose server.js"
+    "start": "node server.js",
+    "server": "nodemon --delay 500ms --verbose server.js"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,12 @@
     "testEnvironment": "jest-environment-node",
     "transform": {},
     "verbose": true
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "node_modules/**/*.js",
+      "*spec.js"
+    ]
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
