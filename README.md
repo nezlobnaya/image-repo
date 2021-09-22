@@ -2,7 +2,7 @@
 
 #  API Documentation for image-repo
 
-#### Backend deployed at [Heroku](https://image-repo-be.herokuapp.com/) <br>
+#### Backend deployed to [Heroku](https://image-repo-be.herokuapp.com/) <br>
 
 ## Getting Started
 
