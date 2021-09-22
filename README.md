@@ -2,6 +2,8 @@
 
 #  API Documentation for image-repo
 
+#### Backend deployed at [Heroku](https://image-repo-be.herokuapp.com/) <br>
+
 ## Getting Started
 
 To get the server running locally:
