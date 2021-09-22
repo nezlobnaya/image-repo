@@ -16,6 +16,7 @@ To get the server running locally:
 
 - `npm start` to start the local server
 - `npm test` to run test suite once
+- `npm run server` to auto restart the local server in the development mode
 
 
 ## Endpoints
